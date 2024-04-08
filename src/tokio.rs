@@ -214,7 +214,7 @@ impl CanFdSocket {
     ///
     /// This uses the semantics of socketcan's `write_frame_insist`,
     /// IE: it will automatically retry when it fails on an EINTR
-    pub fn write_frame(&self, frame: CanFdFrame) -> Result<CanFdWriteFuture> {
+    pub fn write_frame(&self, frame: CanAnyFrame) -> Result<CanFdWriteFuture> {
         Ok(CanFdWriteFuture {
             socket: self.try_clone()?,
             frame,
@@ -228,7 +228,7 @@ impl CanFdSocket {
 #[derive(Debug)]
 pub struct CanFdWriteFuture {
     socket: CanFdSocket,
-    frame: CanFdFrame,
+    frame: CanAnyFrame,
 }
 
 impl Future for CanFdWriteFuture {
